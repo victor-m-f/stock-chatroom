@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor;
+using MudBlazor.Services;
 using StockChatroom.Client;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -12,7 +14,7 @@ builder.Services.AddHttpClient("StockChatroom.ServerAPI", client => client.BaseA
 
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("StockChatroom.ServerAPI"));
-
+builder.Services.AddMudServices(c => { c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight; });
 builder.Services.AddApiAuthorization();
 
 await builder.Build().RunAsync();
