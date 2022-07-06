@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pwd12345!"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+  stockchatroom.server:
+    image: ${DOCKER_REGISTRY-}stockchatroomserver
+    build:
+      context: .
+      dockerfile: src/Server/Dockerfile
