@@ -18,14 +18,6 @@
       "applicationUrl": "https://localhost:7238;http://localhost:5238",
       "dotnetRunMessages": true
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}"
-    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,

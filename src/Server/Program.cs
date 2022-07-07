@@ -1,22 +1,20 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
-using StockChatroom.Server.Data;
-using StockChatroom.Server.Models;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using StockChatroom.Application.Configuration;
+using StockChatroom.Server.Configuration;
+using StockChatroom.Server.Configuration.AutoMapper;
+using StockChatroom.Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddSignalR();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.ConfigureAutoMapper();
+builder.Services.ConfigureIdentityServer(builder.Configuration);
+builder.Services.ConfigureVersioning(1, 0);
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+builder.Services.ConfigureApplication();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
@@ -24,18 +22,20 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    _ = app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();
+    _ = app.UseSwagger();
+    _ = app.UseSwaggerUI();
 }
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -53,5 +53,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+app.MapHub<SignalRHub>("/signalRHub");
 
 app.Run();
