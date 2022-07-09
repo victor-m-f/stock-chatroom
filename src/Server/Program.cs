@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authentication;
-using StockChatroom.Application.Configuration;
 using StockChatroom.Application.Services.Hubs;
 using StockChatroom.Server.Configuration;
 using StockChatroom.Server.Configuration.AutoMapper;

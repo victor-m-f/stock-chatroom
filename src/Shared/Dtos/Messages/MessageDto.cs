@@ -1,4 +1,5 @@
-﻿using StockChatroom.Shared.Dtos.Users;
+﻿using StockChatroom.Shared.Dtos.ChatRooms;
+using StockChatroom.Shared.Dtos.Users;
 
 namespace StockChatroom.Shared.Dtos.Messages;
 
@@ -8,4 +9,5 @@ public class MessageDto
     public string Text { get; set; }
     public DateTime CreatedAt { get; set; }
     public UserDto? FromUser { get; set; }
+    public ChatRoomDto ChatRoom { get; set; }
 }

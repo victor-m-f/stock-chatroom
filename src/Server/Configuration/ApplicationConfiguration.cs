@@ -1,7 +1,9 @@
 ﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using StockChatroom.Application.Configuration.AppSettings;
 using StockChatroom.Application.Services.AuthUser;
 using StockChatroom.Application.Services.Hubs;
+using StockChatroom.Application.Services.RabbitMq;
+using StockChatroom.Application.Services.Stooq;
 using StockChatroom.Application.UseCases.ChatRooms.CreateChatRoom;
 using StockChatroom.Application.UseCases.ChatRooms.GetAllChatRooms;
 using StockChatroom.Application.UseCases.ChatRooms.GetChatRoomDetail;
@@ -10,7 +12,7 @@ using StockChatroom.Application.UseCases.Messages.SendMessage;
 using StockChatroom.Application.UseCases.Users.GetAllUsers;
 using StockChatroom.Application.UseCases.Users.GetUserDetail;
 
-namespace StockChatroom.Application.Configuration;
+namespace StockChatroom.Server.Configuration;
 
 public static class ApplicationConfiguration
 {
@@ -20,6 +22,7 @@ public static class ApplicationConfiguration
 
         _ = services.AddHttpContextAccessor();
         _ = services.AddScoped<IAuthUser, AuthUser>();
+        _ = services.AddScoped<IMessageProducer, MessageProducer>();
 
         services.InjectUseCases();
     }

@@ -10,17 +10,13 @@ services:
     ports:
       - "1433:1433"
   rabbitmq:
-    image: rabbitmq:3-management
-    hostname: "rabbitmq"
-    labels:
-      NAME: "rabbitmq"
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
     ports:
-    - "4369:4369"
-    - "5671:5671"
-    - "5672:5672"
-    - "25672:25672"
-    - "15671:15671"
-    - "15672:15672"
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - "./rabbitdata:/var/lib/rabbitmq"
   stockchatroom.server:
     image: ${DOCKER_REGISTRY-}stockchatroomserver
     build:

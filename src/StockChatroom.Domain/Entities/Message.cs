@@ -13,6 +13,7 @@ public class Message
     public virtual ApplicationUser FromUser { get; set; }
     public string ToNotification => $"From {FromUser.Email}: {Text}";
     public bool IsCommand => Text.StartsWith("/");
+    public Command ToCommand => new (Text);
 
     public Message(string text, DateTime createdAt, ChatRoom chatRoom, ApplicationUser fromUser)
     {

@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace StockChatroom.Application.Services.AuthUser;
 
-internal class AuthUser : IAuthUser
+public class AuthUser : IAuthUser
 {
     public string? Id
     {

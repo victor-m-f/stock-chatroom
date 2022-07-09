@@ -56,25 +56,25 @@ public class SendMessageUseCase : ISendMessageUseCase
 
         if (message.IsCommand)
         {
-
+            PublishCommand(message);
         }
-
-        await SaveMessage();
+        else
+        {
+            await SaveMessage(message, cancellationToken);
+        }
 
         return new SendMessageOutput(HttpStatusCode.Created);
     }
 
-    private void PublishCommand()
-    {
-
-    }
+    private void PublishCommand(Message message) =>
+        _messageProducer.SendMessage(_mapper.Map<MessageDto>(message));
 
     private async Task SaveMessage(Message message, CancellationToken cancellationToken)
     {
         _ = _context.Messages.Add(message);
         _ = await _context.SaveChangesAsync(cancellationToken);
 
-        await _signalRHub.SendMessageAsync(_mapper.Map<MessageDto>(message), message.ChatRoom.Id.ToString(), cancellationToken);
+        await _signalRHub.SendMessageAsync(_mapper.Map<MessageDto>(message), cancellationToken);
         await _signalRHub.SendChatNotificationAsync(
             message.ToNotification,
             message.ChatRoom.Id.ToString(),
