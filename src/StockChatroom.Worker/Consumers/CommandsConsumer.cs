@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using StockChatroom.Application.UseCases.Messages.ProccessCommand;
 using StockChatroom.Shared.Dtos.Messages;
 using System.Text;
 
@@ -43,11 +44,11 @@ public class CommandsConsumer : BackgroundService
         _logger.LogInformation("Waiting for commands to proccess.");
 
         var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        consumer.Received += async (model, ea) =>
         {
             var message = JsonConvert.DeserializeObject<MessageDto>(Encoding.UTF8.GetString(ea.Body.ToArray()));
 
-            var output = _mediator.Send(message, stoppingToken);
+            var output = await _mediator.Send(new ProccessCommandInput(message), stoppingToken);
         };
 
         _ = channel.BasicConsume(

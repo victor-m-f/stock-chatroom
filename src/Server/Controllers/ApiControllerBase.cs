@@ -47,7 +47,7 @@ public abstract class ApiControllerBase : ControllerBase
 
     private ObjectResult Send(ApiResponse response)
     {
-        Log(response);
+        LogResponse(response);
 
         return new ObjectResult(response)
         {
@@ -55,7 +55,7 @@ public abstract class ApiControllerBase : ControllerBase
         };
     }
 
-    private void Log(ApiResponse response)
+    private void LogResponse(ApiResponse response)
     {
         if (response.HttpStatusCode > 500)
         {

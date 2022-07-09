@@ -35,5 +35,5 @@ public static class ApplicationConfiguration
     private static void AddUseCase<TInput, TOutput, TCommandHandler>(this IServiceCollection services)
         where TInput : IRequest<TOutput>
         where TCommandHandler : class, IRequestHandler<TInput, TOutput> =>
-        _ = services.AddScoped<IRequestHandler<TInput, TOutput>, TCommandHandler>();
+        _ = services.AddSingleton<IRequestHandler<TInput, TOutput>, TCommandHandler>();
 }

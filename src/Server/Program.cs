@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using StockChatroom.Application.Services.Hubs;
 using StockChatroom.Server.Configuration;
 using StockChatroom.Server.Configuration.AutoMapper;
+using StockChatroom.Server.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +19,15 @@ builder.Services.ConfigureApplication();
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddRazorPages();
 
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+_ = app.UseMiddleware<ErrorMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

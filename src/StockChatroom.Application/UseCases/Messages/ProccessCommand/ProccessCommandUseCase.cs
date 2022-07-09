@@ -26,14 +26,14 @@ public class ProccessCommandUseCase : IProccessCommandUseCase
 
         if (command.Kind == CommandKind.Stock)
         {
-            await ExecuteStockCommand(command);
+            await ExecuteStockCommand(command, cancellationToken);
         }
 
         return new ProccessCommandOutput(HttpStatusCode.OK);
     }
 
-    private async Task ExecuteStockCommand(Command command)
+    private async Task ExecuteStockCommand(Command command, CancellationToken cancellationToken)
     {
-        await _stooqService.GetStockQuote(command.Value);
+        var getStocksResponse = await _stooqService.GetStocksAsync(command.Value, cancellationToken);
     }
 }

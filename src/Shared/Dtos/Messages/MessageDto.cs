@@ -9,5 +9,4 @@ public class MessageDto
     public string Text { get; set; }
     public DateTime CreatedAt { get; set; }
     public UserDto? FromUser { get; set; }
-    public ChatRoomDto ChatRoom { get; set; }
 }

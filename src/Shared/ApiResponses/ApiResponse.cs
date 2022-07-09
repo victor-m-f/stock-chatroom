@@ -5,18 +5,12 @@ namespace StockChatroom.Shared.ApiResponses;
 
 public class ApiResponse
 {
-    #region Properties
-
     [JsonProperty("succeeded")]
     public bool Succeeded { get; set; }
     [JsonProperty("errors")]
     public IEnumerable<ApiError> Errors { get; set; } = Enumerable.Empty<ApiError>();
     [JsonProperty("httpStatusCode")]
     public int HttpStatusCode { get; set; }
-
-    #endregion
-
-    #region Constructors
 
     public ApiResponse(int httpStatusCode)
     {
@@ -40,5 +34,5 @@ public class ApiResponse
     {
     }
 
-    #endregion
+    public override string ToString() => JsonConvert.SerializeObject(this);
 }

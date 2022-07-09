@@ -74,7 +74,7 @@ public class SendMessageUseCase : ISendMessageUseCase
         _ = _context.Messages.Add(message);
         _ = await _context.SaveChangesAsync(cancellationToken);
 
-        await _signalRHub.SendMessageAsync(_mapper.Map<MessageDto>(message), cancellationToken);
+        await _signalRHub.SendMessageAsync(_mapper.Map<MessageDto>(message), message.ChatRoomId, cancellationToken);
         await _signalRHub.SendChatNotificationAsync(
             message.ToNotification,
             message.ChatRoom.Id.ToString(),
