@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace StockChatroom.Server.Controllers.Responses;
+namespace StockChatroom.Shared.ApiResponses;
 
 public class ApiResponseWithResult<T> : ApiResponse
 {
@@ -20,6 +20,10 @@ public class ApiResponseWithResult<T> : ApiResponse
 
     public ApiResponseWithResult(IEnumerable<ApiError> errors, int httpStatusCode)
         : base(httpStatusCode, errors)
+    {
+    }
+
+    public ApiResponseWithResult()
     {
     }
 }

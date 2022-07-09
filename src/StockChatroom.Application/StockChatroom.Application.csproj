@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Shared\StockChatroom.Shared.csproj" />
     <ProjectReference Include="..\StockChatroom.Infrastructure.Data\StockChatroom.Infrastructure.Data.csproj" />
   </ItemGroup>
 

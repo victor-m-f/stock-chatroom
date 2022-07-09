@@ -5,12 +5,12 @@ namespace StockChatroom.Application.UseCases.Users.GetAllUsers;
 
 public class GetAllUsersOutput : OutputBase
 {
-    public List<ApplicationUser>? AllUsers { get; }
+    public List<ApplicationUser>? Users { get; }
 
-    public GetAllUsersOutput(List<ApplicationUser> allUsers, HttpStatusCode httpStatusCode)
+    public GetAllUsersOutput(List<ApplicationUser> users, HttpStatusCode httpStatusCode)
         : base(httpStatusCode)
     {
-        AllUsers = allUsers;
+        Users = users;
     }
 
     public GetAllUsersOutput(bool isValid, HttpStatusCode httpStatusCode)

@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using StockChatroom.Application.AuthUser;
+using StockChatroom.Application.Services.AuthUser;
+using StockChatroom.Application.Services.Hubs;
 using StockChatroom.Application.UseCases.ChatRooms.CreateChatRoom;
 using StockChatroom.Application.UseCases.ChatRooms.GetAllChatRooms;
+using StockChatroom.Application.UseCases.ChatRooms.GetChatRoomDetail;
 using StockChatroom.Application.UseCases.Messages.GetMessagesFromChatRoom;
 using StockChatroom.Application.UseCases.Messages.SendMessage;
 using StockChatroom.Application.UseCases.Users.GetAllUsers;
@@ -12,14 +14,18 @@ namespace StockChatroom.Application.Configuration;
 
 public static class ApplicationConfiguration
 {
-    public static void ConfigureApplication(this IServiceCollection services) =>
-        services.InjectDependencies();
-
-    private static void InjectDependencies(this IServiceCollection services)
+    public static void ConfigureApplication(this IServiceCollection services)
     {
-        _ = services.AddHttpContextAccessor();
-        _ = services.AddScoped<IAuthUser, AuthUser.AuthUser>();
+        _ = services.AddScoped<SignalRHub>();
 
+        _ = services.AddHttpContextAccessor();
+        _ = services.AddScoped<IAuthUser, AuthUser>();
+
+        services.InjectUseCases();
+    }
+
+    private static void InjectUseCases(this IServiceCollection services)
+    {
         // Users
         services.AddUseCase<GetAllUsersInput, GetAllUsersOutput, GetAllUsersUseCase>();
         services.AddUseCase<GetUserDetailInput, GetUserDetailOutput, GetUserDetailUseCase>();
@@ -30,6 +36,7 @@ public static class ApplicationConfiguration
 
         // ChatRooms
         services.AddUseCase<GetAllChatRoomsInput, GetAllChatRoomsOutput, GetAllChatRoomsUseCase>();
+        services.AddUseCase<GetChatRoomDetailInput, GetChatRoomDetailOutput, GetChatRoomDetailUseCase>();
         services.AddUseCase<CreateChatRoomInput, CreateChatRoomOutput, CreateChatRoomUseCase>();
     }
 

@@ -1,4 +1,4 @@
-﻿namespace StockChatroom.Application.AuthUser;
+﻿namespace StockChatroom.Application.Services.AuthUser;
 
 public interface IAuthUser
 {

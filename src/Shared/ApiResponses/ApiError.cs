@@ -1,4 +1,4 @@
-﻿namespace StockChatroom.Server.Controllers.Responses;
+﻿namespace StockChatroom.Shared.ApiResponses;
 
 public class ApiError
 {

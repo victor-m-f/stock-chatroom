@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using StockChatroom.Application.UseCases.ChatRooms.GetAllChatRooms;
+using StockChatroom.Application.UseCases.ChatRooms.GetChatRoomDetail;
 using StockChatroom.Application.UseCases.Messages.GetMessagesFromChatRoom;
 using StockChatroom.Application.UseCases.Users.GetAllUsers;
 using StockChatroom.Application.UseCases.Users.GetUserDetail;
 using StockChatroom.Domain.Entities;
 using StockChatroom.Shared.Dtos.ChatRooms;
 using StockChatroom.Shared.Dtos.ChatRooms.GetAllChatRooms;
+using StockChatroom.Shared.Dtos.ChatRooms.GetChatRoomDetail;
 using StockChatroom.Shared.Dtos.Messages;
 using StockChatroom.Shared.Dtos.Messages.GetMessagesFromChatRoom;
 using StockChatroom.Shared.Dtos.Users;
@@ -33,12 +35,13 @@ public class AutoMapperProfile : Profile
     private void MapMessages()
     {
         _ = CreateMap<GetMessagesFromChatRoomOutput, GetMessagesFromChatRoomResponse>();
-        _ = CreateMap<Message, MessageDto>();
+        _ = CreateMap<Message, MessageDto>().ReverseMap();
     }
 
     private void MapChatRooms()
     {
         _ = CreateMap<GetAllChatRoomsOutput, GetAllChatRoomsResponse>();
+        _ = CreateMap<GetChatRoomDetailOutput, GetChatRoomDetailResponse>();
         _ = CreateMap<ChatRoom, ChatRoomDto>();
     }
 }

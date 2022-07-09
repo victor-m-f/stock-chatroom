@@ -385,7 +385,7 @@ namespace StockChatroom.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("380a2770-2935-4d93-9321-87d9e7549592"),
+                            Id = new Guid("a822dc7b-ae6e-4d66-8397-a93362074471"),
                             Name = "Main Chat"
                         });
                 });

@@ -16,6 +16,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         IOptions<OperationalStoreOptions> operationalStoreOptions)
         : base(options, operationalStoreOptions)
     {
+        _ = Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

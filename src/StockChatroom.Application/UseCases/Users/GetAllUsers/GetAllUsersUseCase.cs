@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StockChatroom.Application.AuthUser;
+using StockChatroom.Application.Services.AuthUser;
 using StockChatroom.Infrastructure.Data;
 using System.Net;
 

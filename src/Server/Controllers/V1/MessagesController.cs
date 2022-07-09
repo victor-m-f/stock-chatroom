@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StockChatroom.Application.UseCases.Messages.GetMessagesFromChatRoom;
 using StockChatroom.Application.UseCases.Messages.SendMessage;
-using StockChatroom.Server.Controllers.Responses;
+using StockChatroom.Shared.ApiResponses;
 using StockChatroom.Shared.Dtos.Messages.GetMessagesFromChatRoom;
 using StockChatroom.Shared.Dtos.Messages.SendMessage;
 
@@ -32,7 +32,7 @@ public class MessagesController : ApiControllerBase
     {
         using (StartUseCaseScope(nameof(SendMessage)))
         {
-            var input = new SendMessageInput(request.MessageText, chatRoomId);
+            var input = new SendMessageInput(request.MessageText, request.CreatedAt, chatRoomId);
             var output = await _mediator.Send(input, cancellationToken);
 
             return output.IsValid

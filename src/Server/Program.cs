@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using StockChatroom.Application.Configuration;
+using StockChatroom.Application.Services.Hubs;
 using StockChatroom.Server.Configuration;
 using StockChatroom.Server.Configuration.AutoMapper;
-using StockChatroom.Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +51,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 app.MapFallbackToFile("index.html");
 app.MapHub<SignalRHub>("/signalRHub");
 

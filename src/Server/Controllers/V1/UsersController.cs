@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StockChatroom.Application.UseCases.Users.GetAllUsers;
 using StockChatroom.Application.UseCases.Users.GetUserDetail;
-using StockChatroom.Server.Controllers.Responses;
+using StockChatroom.Shared.ApiResponses;
 using StockChatroom.Shared.Dtos.Users.GetAllUsers;
 using StockChatroom.Shared.Dtos.Users.GetUserDetail;
 

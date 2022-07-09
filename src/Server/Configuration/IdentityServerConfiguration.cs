@@ -13,7 +13,7 @@ internal static class IdentityServerConfiguration
         _ = services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         _ = services.AddDatabaseDeveloperPageExceptionFilter();
 
-        _ = services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        _ = services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         _ = services.AddIdentityServer()

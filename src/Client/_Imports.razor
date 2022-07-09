@@ -10,3 +10,9 @@
 @using StockChatroom.Client
 @using StockChatroom.Client.Shared
 @using MudBlazor
+@using StockChatroom.Client.Services
+@inject NavigationManager _navigationManager
+@inject ISnackbar _snackBar
+@inject IJSRuntime _jsRuntime
+@inject AuthenticationStateProvider _stateProvider;
+@inject IStockChatRoomService _stockChatRoomService

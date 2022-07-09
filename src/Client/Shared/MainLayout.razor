@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.SignalR.Client;
+@using StockChatroom.Client.Services;
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -16,14 +18,51 @@
             <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" OnClick="@((e) => DrawerToggle())" Class="ml-3" />
         </MudToolBar>
         <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
-            @Body
+            <CascadingValue Value="hubConnection">
+                @Body
+            </CascadingValue>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
 @code {
     bool _drawerOpen = false;
+    private string CurrentUserId { get; set; }
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+    private HubConnection hubConnection;
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/signalRHub")).Build();
+        await hubConnection.StartAsync();
+        SetupHubConnection();
+        var state = await _stateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+        CurrentUserId = user.Claims.Where(a => a.Type == "sub").Select(a => a.Value).FirstOrDefault();
+    }
+
+    private void SetupHubConnection()
+    {
+        hubConnection.On<string, string, string>("ReceiveChatNotification", (message, toChatRoomId, senderUserId) =>
+        {
+            if (!_navigationManager.Uri.Contains($"chat/{toChatRoomId}") && !string.IsNullOrEmpty(CurrentUserId) && CurrentUserId != senderUserId)
+            {
+                _snackBar.Add(message, Severity.Info, config =>
+                    {
+                        config.VisibleStateDuration = 10000;
+                        config.HideTransitionDuration = 500;
+                        config.ShowTransitionDuration = 500;
+                        config.Action = "Chat?";
+                        config.ActionColor = Color.Info;
+                        config.Onclick = snackbar =>
+                        {
+                            _navigationManager.NavigateTo($"chat/{toChatRoomId}", true);
+                            return Task.CompletedTask;
+                        };
+                    });
+            }
+        });
     }
 }

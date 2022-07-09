@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace StockChatroom.Application.AuthUser;
+namespace StockChatroom.Application.Services.AuthUser;
 
 internal class AuthUser : IAuthUser
 {
