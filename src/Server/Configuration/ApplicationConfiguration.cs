@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using StockChatroom.Application.Configuration.AppSettings;
 using StockChatroom.Application.Services.AuthUser;
 using StockChatroom.Application.Services.Hubs;
-using StockChatroom.Application.Services.RabbitMq;
-using StockChatroom.Application.Services.Stooq;
 using StockChatroom.Application.UseCases.ChatRooms.CreateChatRoom;
 using StockChatroom.Application.UseCases.ChatRooms.GetAllChatRooms;
 using StockChatroom.Application.UseCases.ChatRooms.GetChatRoomDetail;
@@ -18,11 +15,11 @@ public static class ApplicationConfiguration
 {
     public static void ConfigureApplication(this IServiceCollection services)
     {
+        _ = services.AddSignalR();
         _ = services.AddScoped<SignalRHub>();
 
         _ = services.AddHttpContextAccessor();
         _ = services.AddScoped<IAuthUser, AuthUser>();
-        _ = services.AddScoped<IMessageProducer, MessageProducer>();
 
         services.InjectUseCases();
     }

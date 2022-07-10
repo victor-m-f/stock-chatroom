@@ -1,5 +1,4 @@
-﻿using StockChatroom.Shared.Dtos.ChatRooms;
-using StockChatroom.Shared.Dtos.Users;
+﻿using StockChatroom.Shared.Dtos.Users;
 
 namespace StockChatroom.Shared.Dtos.Messages;
 

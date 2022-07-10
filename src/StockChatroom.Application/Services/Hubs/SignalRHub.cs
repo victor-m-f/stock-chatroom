@@ -16,7 +16,7 @@ public class SignalRHub : Hub
     public async Task SendMessageAsync(MessageDto message, Guid chatRoomId, CancellationToken cancellationToken) =>
         await _context.Clients.All.SendAsync("ReceiveMessage", message, chatRoomId, cancellationToken);
 
-    public async Task SendChatNotificationAsync(string message, string toChatRoomId, string senderUserId, CancellationToken cancellationToken) =>
+    public async Task SendChatNotificationAsync(string message, Guid toChatRoomId, string senderUserId, CancellationToken cancellationToken) =>
         await _context.Clients.All.SendAsync("ReceiveChatNotification", message, toChatRoomId, senderUserId, cancellationToken);
 
     public async Task CreateChatRoomAsync(ChatRoomDto chatRoom, CancellationToken cancellationToken) =>

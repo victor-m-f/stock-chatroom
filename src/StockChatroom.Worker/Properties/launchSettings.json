@@ -1,14 +1,29 @@
-{
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:51840",
+      "sslPort": 44377
+    }
+  },
   "profiles": {
     "StockChatroom.Worker": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7236;http://localhost:5236",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     },
-    "Docker": {
-      "commandName": "Docker"
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }

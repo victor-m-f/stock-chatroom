@@ -29,7 +29,9 @@ public class AutoMapperProfile : Profile
     {
         _ = CreateMap<GetAllUsersOutput, GetAllUsersResponse>();
         _ = CreateMap<GetUserDetailOutput, GetUserDetailResponse>();
-        _ = CreateMap<ApplicationUser, UserDto>();
+        _ = CreateMap<ApplicationUser, UserDto>()
+            .ForMember(dest => dest.Name, opt =>
+            opt.MapFrom(src => src.Email));
     }
 
     private void MapMessages()

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StockChatroom.Application.Services.AuthUser;
-using StockChatroom.Application.Services.Hubs;
-using StockChatroom.Application.Services.RabbitMq;
 using StockChatroom.Domain.Entities;
+using StockChatroom.Domain.Services;
 using StockChatroom.Infrastructure.Data;
 using StockChatroom.Shared.Dtos.Messages;
+using StockChatroom.Shared.Events;
 using System.Net;
 
 namespace StockChatroom.Application.UseCases.Messages.SendMessage;
@@ -14,20 +14,17 @@ public class SendMessageUseCase : ISendMessageUseCase
 {
     private readonly ApplicationDbContext _context;
     private readonly IAuthUser _authUser;
-    private readonly SignalRHub _signalRHub;
     private readonly IMapper _mapper;
-    private readonly IMessageProducer _messageProducer;
+    private readonly IMessageBrokerProducer _messageProducer;
 
     public SendMessageUseCase(
         ApplicationDbContext context,
         IAuthUser authUser,
-        SignalRHub signalRHub,
         IMapper mapper,
-        IMessageProducer messageProducer)
+        IMessageBrokerProducer messageProducer)
     {
         _context = context;
         _authUser = authUser;
-        _signalRHub = signalRHub;
         _mapper = mapper;
         _messageProducer = messageProducer;
     }
@@ -43,7 +40,7 @@ public class SendMessageUseCase : ISendMessageUseCase
             return output;
         }
 
-        var chatRoom = await _context.ChatRooms.FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+        var chatRoom = await _context.ChatRooms.FirstOrDefaultAsync(x => x.Id == request.ChatRoomId, cancellationToken);
 
         if (chatRoom == null)
         {
@@ -54,31 +51,35 @@ public class SendMessageUseCase : ISendMessageUseCase
 
         var message = new Message(request.MessageText, request.CreatedAt, chatRoom, fromUser);
 
+        if (!message.IsCommand)
+        {
+            await SaveMessage(message, cancellationToken);
+        }
+
+        PublishMessage(message);
+
         if (message.IsCommand)
         {
             PublishCommand(message);
-        }
-        else
-        {
-            await SaveMessage(message, cancellationToken);
         }
 
         return new SendMessageOutput(HttpStatusCode.Created);
     }
 
     private void PublishCommand(Message message) =>
-        _messageProducer.SendMessage(_mapper.Map<MessageDto>(message));
+        _messageProducer.PublishEvent(new CommandSentEvent() { Message = _mapper.Map<MessageDto>(message), ChatRoomId = message.ChatRoom.Id });
+
+    private void PublishMessage(Message message) =>
+        _messageProducer.PublishEvent(new MessageSentEvent()
+        {
+            Message = _mapper.Map<MessageDto>(message),
+            MessageNotification = message.ToNotification,
+            ChatRoomId = message.ChatRoom.Id,
+        });
 
     private async Task SaveMessage(Message message, CancellationToken cancellationToken)
     {
         _ = _context.Messages.Add(message);
         _ = await _context.SaveChangesAsync(cancellationToken);
-
-        await _signalRHub.SendMessageAsync(_mapper.Map<MessageDto>(message), message.ChatRoomId, cancellationToken);
-        await _signalRHub.SendChatNotificationAsync(
-            message.ToNotification,
-            message.ChatRoom.Id.ToString(),
-            message.FromUserId.ToString(),
-            cancellationToken);
     }
 }

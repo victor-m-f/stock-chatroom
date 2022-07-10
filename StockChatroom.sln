@@ -31,7 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChatroom.Application.U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{F5A4FEEE-824C-45EA-ABAE-04A12E56A506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChatroom.Worker", "src\StockChatroom.Worker\StockChatroom.Worker.csproj", "{5D8FD983-C655-40F8-92E8-5F060A7BFF14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChatroom.Worker1", "src\StockChatroom.Worker1\StockChatroom.Worker1.csproj", "{5D8FD983-C655-40F8-92E8-5F060A7BFF14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChatroom.Infrastructure.Broker.RabbitMq", "src\StockChatroom.Infrastructure.Broker.RabbitMq\StockChatroom.Infrastructure.Broker.RabbitMq.csproj", "{2151CDCE-E270-4FEE-A61F-046F9E223BFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChatroom.Worker", "src\StockChatroom.Worker\StockChatroom.Worker.csproj", "{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{5D8FD983-C655-40F8-92E8-5F060A7BFF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D8FD983-C655-40F8-92E8-5F060A7BFF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D8FD983-C655-40F8-92E8-5F060A7BFF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2151CDCE-E270-4FEE-A61F-046F9E223BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2151CDCE-E270-4FEE-A61F-046F9E223BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2151CDCE-E270-4FEE-A61F-046F9E223BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2151CDCE-E270-4FEE-A61F-046F9E223BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +101,8 @@ Global
 		{EC979C70-BAFE-41D3-9F28-54995EA9EB06} = {4A88216B-EEB7-4536-88C1-C607D1FC6D90}
 		{9D5DDB21-72B3-485E-93CA-1566C3B1BE7C} = {EC979C70-BAFE-41D3-9F28-54995EA9EB06}
 		{5D8FD983-C655-40F8-92E8-5F060A7BFF14} = {F5A4FEEE-824C-45EA-ABAE-04A12E56A506}
+		{2151CDCE-E270-4FEE-A61F-046F9E223BFE} = {9407B667-C825-496C-8FB5-7068FEA9F92A}
+		{3FF7B50C-2258-4B9B-A2A1-15F1592E4C4C} = {F5A4FEEE-824C-45EA-ABAE-04A12E56A506}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53AC5841-EA2E-4EF3-A73A-C088C20DEB7F}

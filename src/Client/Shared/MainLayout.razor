@@ -35,7 +35,7 @@
     public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/signalRHub")).Build();
+        hubConnection = new HubConnectionBuilder().WithUrl(new Uri("https://localhost:7236/signalRHub")).Build();
         await hubConnection.StartAsync();
         SetupHubConnection();
         var state = await _stateProvider.GetAuthenticationStateAsync();

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Client\StockChatroom.Client.csproj" />
     <ProjectReference Include="..\Shared\StockChatroom.Shared.csproj" />
     <ProjectReference Include="..\StockChatroom.Application\StockChatroom.Application.csproj" />
+    <ProjectReference Include="..\StockChatroom.Infrastructure.Broker.RabbitMq\StockChatroom.Infrastructure.Broker.RabbitMq.csproj" />
     <ProjectReference Include="..\StockChatroom.Infrastructure.Data\StockChatroom.Infrastructure.Data.csproj" />
   </ItemGroup>
 

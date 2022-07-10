@@ -1,19 +1,19 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using StockChatroom.Application.Services.Hubs;
+using StockChatroom.Infrastructure.Broker.RabbitMq.Configuration;
 using StockChatroom.Server.Configuration;
 using StockChatroom.Server.Configuration.AutoMapper;
 using StockChatroom.Server.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSignalR();
-
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureIdentityServer(builder.Configuration);
 builder.Services.ConfigureVersioning(1, 0);
 
+builder.Services.AddRabbitMqProducer(builder.Configuration);
 builder.Services.ConfigureApplication();
 
 builder.Services.AddAuthentication()
@@ -38,8 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
+    _ = app.UseExceptionHandler("/Error");
+    _ = app.UseHsts();
 }
 
 app.UseHttpsRedirection();

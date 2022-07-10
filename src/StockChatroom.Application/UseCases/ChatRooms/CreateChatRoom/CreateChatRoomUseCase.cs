@@ -1,7 +1,9 @@
-﻿using StockChatroom.Application.Services.Hubs;
+﻿using AutoMapper;
 using StockChatroom.Domain.Entities;
+using StockChatroom.Domain.Services;
 using StockChatroom.Infrastructure.Data;
 using StockChatroom.Shared.Dtos.ChatRooms;
+using StockChatroom.Shared.Events;
 using System.Net;
 
 namespace StockChatroom.Application.UseCases.ChatRooms.CreateChatRoom;
@@ -9,12 +11,17 @@ namespace StockChatroom.Application.UseCases.ChatRooms.CreateChatRoom;
 public class CreateChatRoomUseCase : ICreateChatRoomUseCase
 {
     private readonly ApplicationDbContext _context;
-    private readonly SignalRHub _signalRHub;
+    private readonly IMessageBrokerProducer _messageProducer;
+    private readonly IMapper _mapper;
 
-    public CreateChatRoomUseCase(ApplicationDbContext context, SignalRHub signalRHub)
+    public CreateChatRoomUseCase(
+        ApplicationDbContext context,
+        IMessageBrokerProducer messageProducer,
+        IMapper mapper)
     {
         _context = context;
-        _signalRHub = signalRHub;
+        _messageProducer = messageProducer;
+        _mapper = mapper;
     }
 
     public async Task<CreateChatRoomOutput> Handle(CreateChatRoomInput request, CancellationToken cancellationToken)
@@ -25,7 +32,10 @@ public class CreateChatRoomUseCase : ICreateChatRoomUseCase
 
         _ = await _context.SaveChangesAsync(cancellationToken);
 
-        await _signalRHub.CreateChatRoomAsync(new ChatRoomDto() { Id = chatRoom.Id, Name = chatRoom.Name }, cancellationToken);
+        _messageProducer.PublishEvent(new ChatRoomCreatedEvent
+        {
+            ChatRoom = _mapper.Map<ChatRoomDto>(chatRoom),
+        });
 
         return new CreateChatRoomOutput(HttpStatusCode.Created);
     }

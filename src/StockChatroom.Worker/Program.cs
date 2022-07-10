@@ -1,17 +1,28 @@
 ﻿using MediatR;
+using StockChatroom.Application.Services.Hubs;
+using StockChatroom.Infrastructure.Broker.RabbitMq.Configuration;
 using StockChatroom.Worker.Configuration;
 using StockChatroom.Worker.Configuration.AutoMapper;
-using StockChatroom.Worker.Consumers;
 
-var host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostContext, services) =>
-    {
-        services.ConfigureAutoMapper();
-        _ = services.AddMediatR(typeof(Program));
+var builder = WebApplication.CreateBuilder(args);
 
-        services.ConfigureApplication(hostContext.Configuration);
-        _ = services.AddHostedService<CommandsConsumer>();
-    })
-    .Build();
+builder.Services.ConfigureAutoMapper();
+_ = builder.Services.AddMediatR(typeof(Program));
 
-await host.RunAsync();
+builder.Services.AddCors(x => x.AddDefaultPolicy(builder =>
+{
+    _ = builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
+builder.Services.AddRabbitMqProducer(builder.Configuration);
+builder.Services.AddRabbitMqConsumer(builder.Configuration);
+builder.Services.ConfigureApplication(builder.Configuration);
+
+var app = builder.Build();
+
+app.UseCors();
+app.UseHttpsRedirection();
+
+app.MapHub<SignalRHub>("/signalRHub");
+
+app.Run();

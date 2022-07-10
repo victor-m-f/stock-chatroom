@@ -37,17 +37,17 @@ public class StooqService : IStooqService
 
         while (!parser.EndOfData)
         {
+            var row = parser.ReadFields();
+
             if (firstIteration)
             {
                 firstIteration = false;
                 continue;
             }
 
-            var row = parser.ReadFields();
-
             if (row == null || row.Length != 8)
             {
-                errors.Add(new ApiError("Invalid stock format."));
+                errors.Add(new ApiError($"Unable to retrieve requested data for stock code {stockCode}"));
                 break;
             }
 

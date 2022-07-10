@@ -67,7 +67,7 @@ public partial class Chat
     {
         if (HubConnection == null)
         {
-            HubConnection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/signalRHub")).Build();
+            HubConnection = new HubConnectionBuilder().WithUrl(new Uri("https://localhost:7236/signalRHub")).Build();
         }
 
         if (HubConnection.State == HubConnectionState.Disconnected)
