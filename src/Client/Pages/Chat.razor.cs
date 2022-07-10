@@ -75,8 +75,8 @@ public partial class Chat
             await HubConnection.StartAsync();
         }
 
-        SetupOnReceiveMessage();
-        SetupOnCreateChatRoom();
+        await SetupOnReceiveMessage();
+        await SetupOnCreateChatRoom();
     }
 
     private async Task SetupOnReceiveMessage()
