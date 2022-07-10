@@ -25,3 +25,11 @@ services:
     depends_on:
       - ms-sql-server
       - rabbitmq
+  stockchatroom.worker:
+    image: ${DOCKER_REGISTRY-}stockchatroomworker
+    build:
+      context: .
+      dockerfile: src/StockChatroom.Worker/Dockerfile
+    depends_on:
+      - ms-sql-server
+      - rabbitmq
